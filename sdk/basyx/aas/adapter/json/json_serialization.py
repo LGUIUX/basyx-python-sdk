@@ -708,7 +708,9 @@ class AASToJsonEncoder(json.JSONEncoder):
             data["entityType"] = _generic.ENTITY_TYPES[obj.entity_type]
         if obj.global_asset_id is not None:
             data["globalAssetId"] = obj.global_asset_id
-        if obj.specific_asset_id is not None:
+        # specific_asset_id is a collection, so it is never None. An empty one has to be
+        # left out: the schema gives specificAssetIds minItems 1, as it does every array.
+        if obj.specific_asset_id:
             data["specificAssetIds"] = list(obj.specific_asset_id)
         return data
 
