@@ -112,6 +112,9 @@ jobs:
       run: |
         python test/_helper/setup_testdb.py -u "admin" -p "$COUCHDB_ADMIN_PASSWORD"
     - name: Test with coverage + unittest
+      env:
+        # Fail instead of silently skipping if the schema files above are missing (see test_helpers.py).
+        REQUIRE_SCHEMA_TESTS: "1"
       run: |
         python -m coverage run --source=basyx -m unittest
     - name: Report test coverage
